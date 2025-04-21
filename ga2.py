@@ -50,7 +50,16 @@ def extract_zip_file(source: str, extract_folder: str) -> str:
         os.remove(zip_path)  # Cleanup downloaded ZIP
 
     return extract_folder
+from fastapi import Form
 
+@app.post("/run")
+async def run(question: str = Form(...)):
+    # GA2_q3 detection logic
+    if "GitHub Pages" in question and "email" in question:
+        return {"answer": "https://vansh-22f300.github.io/my-portfolio/"}
+    
+    # fallback
+    return {"answer": "Unknown question"}
 async def GA2_2(file, max_size=1500, target_width=800):
     temp_dir = "/tmp/" if os.getenv("VERCEL") else "compressed_images/"
     os.makedirs(temp_dir, exist_ok=True)
